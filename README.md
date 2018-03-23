@@ -9,7 +9,7 @@ The `basic_linear_kernel.R` code includes a simple classification example using 
 *Note* that the data is reduced by removing all the cases of 'versicolor' species so that the problem is reduced to binary classification.
 The following plot shows a two dimensional plot of the iris data where the class separation is visible.
 
-Linear Separation: ![new plot](https://github.com/idlirshkurti/StedinSVM/blob/master/iris_classes.png)
+Linear Separation: ![new plot](https://github.com/idlirshkurti/StedinSVM/blob/master/figures/iris_classes.png)
 
 The data is separated into a train set (75% of the rows) and a test set (25% of rows). The following lines of code are used to build an SVM model using a linear kernel and make predictions for the test set.
 ```R
@@ -32,9 +32,9 @@ Artificial data was generated in R to simulate non linear separation in a two di
 Data points which are within the boundaries of the circle with equation `(x-1)^2 + (y-1)^2 = 1` are given a class 0 and the datapoints outside the circle (or on the boundaries) a class of 1.
 
 
-![new plot](https://github.com/idlirshkurti/StedinSVM/blob/master/non_linear_plot.png)
+![new plot](https://github.com/idlirshkurti/StedinSVM/blob/master/figures/non_linear_plot.png)
 
-Radial (Gaussian) Kernel Performance: ![new plot](https://github.com/idlirshkurti/StedinSVM/blob/master/test_non_linear.png)
+Radial (Gaussian) Kernel Performance: ![new plot](https://github.com/idlirshkurti/StedinSVM/blob/master/figures/test_non_linear.png)
 
 
 | Confusion Matrix        |               |       |
@@ -47,7 +47,7 @@ Radial (Gaussian) Kernel Performance: ![new plot](https://github.com/idlirshkurt
 #### 3 - More Complicated Example - Multiple Classes
 One of the main drawbacks of SVMs is the time and computational power required to pick the optimal kernel and parameters for the model. The image below shows a two dimensional projection of the full iris dataset with three classes. 
 
-![threeclass](https://github.com/idlirshkurti/StedinSVM/blob/master/three_classes_iris.png)
+![threeclass](https://github.com/idlirshkurti/StedinSVM/blob/master/figures/three_classes_iris.png)
 
 
 Multi-class classification using SVMs in R is simple and can be computed using the same code as for binary classification. The {e1071} package detects multiple classes in the response variable and runs the model accordingly. The following is the summary output of the SVM model in R using the full iris dataset with 3 classes. The model detects 3 classes and chooses the appropriate C and Gamma parameters for classification. 
@@ -72,7 +72,7 @@ Levels:
 
 The image below shows the actual and the predicted values for the test set. The confusion matrix shows that there have been only 4 cases of misclassification within the test set.
 
-![threeclasspred](https://github.com/idlirshkurti/StedinSVM/blob/master/three_class_pred.png)
+![threeclasspred](https://github.com/idlirshkurti/StedinSVM/blob/master/figures/three_class_pred.png)
 
 
 | **Confusion Matrix**    |               |              |           |
