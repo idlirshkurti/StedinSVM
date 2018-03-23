@@ -45,8 +45,15 @@ Radial (Gaussian) Kernel Performance: ![new plot](https://github.com/idlirshkurt
 
 
 #### 3 - More Complicated Example - Optimizing Parameters For 3-Classes Classification
+One of the main drawbacks of SVMs is the time and computational power required to pick the optimal kernel and parameters for the model. The image below shows a two dimensional projection of the full iris dataset with three classes. Multi-class classification using SVMs in R is simple and can be computed using the following code: 
 
-![new plot](https://github.com/idlirshkurti/StedinSVM/blob/master/three_classes_iris.png)
+```R
+svm_model <- svm(xtrain, ytrain, scale = TRUE, kernel = "linear")
+ypred <- predict(svm_model, xtest)
+```
+
+
+![threeclass](https://github.com/idlirshkurti/StedinSVM/blob/master/three_classes_iris.png)
 
 
 
