@@ -44,8 +44,9 @@ Radial (Gaussian) Kernel Performance: ![new plot](https://github.com/idlirshkurt
 | 1                       | 4             |   149 |
 
 
-#### 3 - More Complicated Example - Optimising parameters (Titanic Dataset)
+#### 3 - More Complicated Example - Optimizing Parameters For 3-Classes Classification
 
+![new plot](https://github.com/idlirshkurti/StedinSVM/blob/master/three_classes_iris.png)
 
 
 
