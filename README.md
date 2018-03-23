@@ -11,3 +11,11 @@ Linear Separation: ![new plot](https://github.com/idlirshkurti/StedinSVM/blob/ma
 
 
 Non Linear Separation: ![new plot](https://github.com/idlirshkurti/StedinSVM/blob/master/non_linear_plot.png)
+
+Radial (Gaussian) Kernel Performance: ![new plot](https://github.com/idlirshkurti/StedinSVM/blob/master/test_non_linear.png)
+
+Confusion Matrix:
+| Actual Outcomes| Predictions|    |
+|                |:0:         | 1: |
+| 0              | 97         | 0  |
+| 1              | 4          |149 |
