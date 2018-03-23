@@ -1,27 +1,15 @@
 # Analytics Community - Deep dive into SVM Code
+# Iris Dataset Example
 
-# Kaggle Titanic - Classification Competition 
-packages <- c('e1071', 'ggplot2')
+packages <- c('e1071', 'ggplot2', "gridExtra")
 lapply(packages, install.packages, character.only = TRUE)
 lapply(packages, require, character.only = TRUE)
 
-# Make sure to set the correct working directory
-
-# ---------- Load the data ----------------- 
-train <- read.csv("train.csv", sep = ",", header = TRUE)
-test <- read.csv("train.csv", sep = ",", header = TRUE)
-head(train); head(test)
-ytrain <- train$Survived
-xtrain <- train[c("Pclass", "Sex", "Age", "SibSp", "Parch", "Ticket", "Fare", "Embarked")]
-
-# Visualisation plot
-p <- ggplot(train, aes(Parch, Age))
-p + geom_point(aes(colour = factor(Survived), size = 2)) 
-#+ geom_abline(intercept=0, slope=1)
-
-
 # -------- Load iris dataset -----
 attach(iris)
+
+# randomise the rows of the data
+iris <- iris[,sample(ncol(iris))]
 
 x <- subset(iris, select=-Species)
 y <- Species
@@ -34,8 +22,9 @@ y <- factor(as.integer(y), labels = c("setosa", "virginica"))
 levels(y)
 
 # plot 2 dimensional class separation
-separations <- ggplot(x,aes(shape = factor(y), Sepal.Length, Sepal.Width)) +
-  geom_point(aes(size = 2, colour=factor(y))) + geom_abline(intercept=-2.4, slope=1) # 2 dimensional
+separations <- ggplot(x,aes(shape = factor(y), colour=factor(y), Sepal.Length, Sepal.Width)) +
+  geom_point(size = 3) +
+  ggtitle("Iris Dataset With 2 Classes") + geom_abline(intercept=-2.4, slope=1) # 2 dimensional
 plot(separations)
 
 # Separate into train and test sets (75% train & 25% test)
@@ -53,7 +42,7 @@ summary(svm_model)
 ypred <- predict(svm_model, xtest)
 
 # Put the predictions and features in a single data frame
-full_pred <- cbind(xtest, ytest = ypred)
+full_pred <- cbind(xtest, ypred = ypred)
 
 # ----- Review Results 
 system.time(ypred <- predict(svm_model,xtest))
@@ -67,24 +56,6 @@ pred.sep <- ggplot(full_pred, aes(shape = factor(ypred), Sepal.Length, Sepal.Wid
   geom_point(aes(size = 2, colour=factor(ypred))) + geom_abline(intercept=-2.4, slope=1) # 2 dimensional
 plot(pred.sep)
 
-
-# ---- More complicated model -----
-
-# Random parameter selection
-csvm <- tune(svm, ytrain ~ ., data = full_train,
-             ranges=list(cost=c(0.25,0.5,1,2,10), gamma=c(0.25,0.5,1,3,5)),
-             scale=F, tune.control="logloss")
-
-# Choose the best parameters
-bestGamma <- csvm$best.parameters[[1]]
-bestC <- csvm$best.parameters[[2]] # = 0.5
-model <- svm(ytrain ~.,full_train,
-                 cost = bestC,gamma = bestGamma,
-                 probability=TRUE,
-                 scale=FALSE,cross=10)
-
-ypred = predict(model, xtest, probability = F)
-ypred
 
 
 
