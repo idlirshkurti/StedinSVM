@@ -44,18 +44,79 @@ Radial (Gaussian) Kernel Performance: ![new plot](https://github.com/idlirshkurt
 | 1                       | 4             |   149 |
 
 
-#### 3 - More Complicated Example - Optimizing Parameters For 3-Classes Classification
-One of the main drawbacks of SVMs is the time and computational power required to pick the optimal kernel and parameters for the model. The image below shows a two dimensional projection of the full iris dataset with three classes. Multi-class classification using SVMs in R is simple and can be computed using the following code: 
-
-```R
-svm_model <- svm(xtrain, ytrain, scale = TRUE, kernel = "linear")
-ypred <- predict(svm_model, xtest)
-```
-
+#### 3 - More Complicated Example - Multiple Classes
+One of the main drawbacks of SVMs is the time and computational power required to pick the optimal kernel and parameters for the model. The image below shows a two dimensional projection of the full iris dataset with three classes. 
 
 ![threeclass](https://github.com/idlirshkurti/StedinSVM/blob/master/three_classes_iris.png)
 
 
+Multi-class classification using SVMs in R is simple and can be computed using the same code as for binary classification. The {e1071} package detects multiple classes in the response variable and runs the model accordingly. The following is the summary output of the SVM model in R using the full iris dataset with 3 classes. The model detects 3 classes and chooses the appropriate C and Gamma parameters for classification. 
+
+```
+Call:
+svm.default(x = xtrain, y = ytrain, scale = TRUE, kernel = "linear")
+
+Parameters:
+   SVM-Type:  C-classification 
+ SVM-Kernel:  linear 
+       cost:  1 
+      gamma:  0.25 
+      
+Number of Support Vectors:  22
+ ( 2 11 9 )
+
+Number of Classes:  3 
+Levels: 
+ setosa versicolor virginica
+```
+
+The image below shows the actual and the predicted values for the test set. The confusion matrix shows that there have been only 4 cases of misclassification within the test set.
+
+![threeclasspred](https://github.com/idlirshkurti/StedinSVM/blob/master/three_class_pred.png)
+
+
+| Confusion Matrix        |               |              |           |
+| ----------------------- |:-------------:| :-----------:| ---------:|
+| **Actuals\Predictions**   | setosa      |  versicolor  |  virginica|       
+| setosa                  | 12            |    0         |  0        |
+| versicolor              | 0             |   12         |  1        |
+| virginica               | 0             |   3          |  10       |
+
+
+
+##### 3.1 - More Complicated Example - Optimizing Parameters For 3-Classes Classification
+
+Insted of running the basic `svm()` code in R and let the model pick the best parameters for classification, one can tune the model by giving R a range of possible parameters to choose from and specify metric which must be used for tuning as shown in the following code.
+
+```R
+csvm <- tune(svm, ytrain ~ ., data = full_train,
+             ranges=list(cost=c(0.25,0.5,1,2), gamma=c(0.25,0.5,1,3,5)),
+             scale=F, tune.control="logloss")
+```
+
+This code uses the pre-specified range of Cost and Gamma parameters in order to find the optimal parameters which minimise 'logloss'.
+The next code then uses these parameters to fit an SVM model and make predictions:
+
+```R
+bestGamma <- csvm$best.parameters[[1]]
+bestC <- csvm$best.parameters[[2]] 
+
+model <- svm(ytrain ~.,full_train,
+             cost = bestC,gamma = bestGamma,
+             probability=TRUE,
+             scale=FALSE,cross=10)
+ypred = predict(model, xtest, probability = F)
+```
+
+The following confusion matrix comes from this model where we can see that now we have 3 misclassified test set data points.
+
+
+| Confusion Matrix        |               |              |           |
+| ----------------------- |:-------------:| :-----------:| ---------:|
+| **Actuals\Predictions**   | setosa      |  versicolor  |  virginica|       
+| setosa                  | 12            |    0         |  0        |
+| versicolor              | 0             |   12         |  0        |
+| virginica               | 0             |   3          |  11       |
 
 
 
