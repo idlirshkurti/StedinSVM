@@ -120,6 +120,6 @@ The following confusion matrix comes from this model where we can see that now w
 
 
 
+#### 4 - Titanic Dataset - Further Work
 
-
-
+Inside the 'data' folder you can find two datasets, train.csv and test.csv. These are taken from the 'Titanic-Machine Learning from disaster' [Kaggle competition](https://www.kaggle.com/c/titanic/data). This is a good example to test the SVM algorithms mentioned here.
